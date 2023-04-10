@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>热查(Hottea)</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="/js/echarts.js"></script>
+    <script src="/js/jquery-3.6.4.min.js"></script>
+    <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <style>
+        table { border-collapse: collapse;}
+        table,table tr th, table tr td { border:1px solid #000000; }
+    </style>
+</head>
+<body>
+
+<!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+<div id="c" style="width: 1400px;height:400px;">
+
+<!--    <div id="context" class="row align-items-center">-->
+<!--        <div id="ast" class="col-md-4">a</div>-->
+<!--        <div id="sql" class="col-md-4">b</div>-->
+<!--        <div id="html" class="col-md-4">c</div>-->
+<!--    </div>-->
+    <table style="border: 1px solid #000000;" width="1200px">
+        <tr>
+            <td width="10%">语句</td>
+            <td><input id="sentence" value="历年销售汇总"><button onclick="query()">解析</button></td>
+        </tr>
+        <tr>
+            <td width="10%">生成SQL</td>
+            <td><div id="sql"></div></td>
+        </tr>
+        <tr>
+            <td width="10%">AST树</td>
+            <td><div id="tree"></div></td>
+        </tr>
+        <tr>
+            <td width="10%">节点内容</td>
+            <td><div id="ast"></div></td>
+        </tr>
+        <tr>
+            <td width="10%">生成图表</td>
+            <td><div id="html"></div></td>
+        </tr>
+
+    </table>
+</div>
+<script type="text/javascript">
+    function query(){
+        var s = $("#sentence").val();
+        $.ajax({
+            //http://localhost:8080/hottea/ast?sentence=%E5%8E%86%E5%B9%B4%E9%94%80%E5%94%AE%E6%B1%87%E6%80%BB
+            type: "get",        // 请求方式
+            url: "/hottea/dashboard?sentence="+s, // 请求路径
+            dataType: "json",   // 预期返回一个 json 类型数据
+            success: function (data) {   // data是形参名，代表返回的数据
+                console.log(data);
+                $("#ast").html(data.ast);
+                $("#tree").html(data.tree);
+                $("#sql").html(data.sql);
+                $("#html").html(data.hhtml);
+            }
+        });
+    }
+</script>
+</body>
+</html>

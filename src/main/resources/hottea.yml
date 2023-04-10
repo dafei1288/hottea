@@ -1,0 +1,6 @@
+hottea:
+  datasource:
+    driver: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hottea
+    usr: root
+    passwd: dafei1288
